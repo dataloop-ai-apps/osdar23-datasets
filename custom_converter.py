@@ -112,12 +112,11 @@ class LidarCustomParser(LidarFileMappingParser):
         self.attributes_id_mapping_dict = attributes_mapping
 
     @staticmethod
-    def extract_zip_item(item: dl.Item):
+    def extract_zip_file(zip_filepath: str):
         data_path = str(uuid.uuid4())
 
         try:
             os.makedirs(name=data_path, exist_ok=True)
-            zip_filepath = item.download(local_path=data_path)
 
             with ZipFile(zip_filepath, 'r') as zip_object:
                 zip_object.extractall(path=os.path.join(".", data_path))
@@ -635,15 +634,15 @@ class LidarCustomParser(LidarFileMappingParser):
 
         return images_dict
 
-    def custom_parse_data(self, item: dl.Item, overwrite: bool = False):
-        data_path = self.extract_zip_item(item=item)
-        lidar_dataset = self.create_lidar_dataset(item=item, overwrite=overwrite)
+    def custom_parse_data(self, zip_filepath: str, lidar_dataset: dl.Dataset):
+        data_path = self.extract_zip_file(zip_filepath=zip_filepath)
 
         try:
             self.upload_pcds_and_images(data_path=data_path, dataset=lidar_dataset)
             mapping_item = self.create_mapping_json(data_path=data_path, dataset=lidar_dataset)
             frames_item = self.parse_data(mapping_item=mapping_item)
             self.upload_pre_annotation_lidar(frames_item=frames_item, data_path=data_path)
+            self.upload_pre_annotation_images(frames_item=frames_item, data_path=data_path)
         finally:
             shutil.rmtree(path=data_path, ignore_errors=True)
 
@@ -651,17 +650,11 @@ class LidarCustomParser(LidarFileMappingParser):
 
 
 def main():
-    dl.setenv('prod')
-
-    # item = dl.items.get(item_id="6535562279f8da742034f49b")
-
     cp = LidarCustomParser(
         enable_ir_cameras="true",
         enable_rgb_cameras="true",
         enable_rgb_highres_cameras="false"
     )
-    # data_path = cp.extract_zip_item(item=item)
-    # dataset = cp.create_lidar_dataset(item=item, overwrite=False)
 
     data_path = "../data"
     dataset = dl.datasets.get(dataset_id="66099e6289c8593e33498ce1")

@@ -1,0 +1,641 @@
+{
+    "id": null,
+    "creator": null,
+    "title": "DB Recipe",
+    "roots": [{
+        "value": {
+            "tag": "person",
+            "displayLabel": "person",
+            "color": "#ff0000",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "crowd",
+            "displayLabel": "crowd",
+            "color": "#00ff4a",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "train",
+            "displayLabel": "train",
+            "color": "#9500ff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "wagons",
+            "displayLabel": "wagons",
+            "color": "#ffdf00",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "bicycle",
+            "displayLabel": "bicycle",
+            "color": "#00d4ff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "group of bicycles",
+            "displayLabel": "group of bicycles",
+            "color": "#ff008a",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "motorcycle",
+            "displayLabel": "motorcycle",
+            "color": "#40ff00",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "road vehicle",
+            "displayLabel": "road vehicle",
+            "color": "#0b00ff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "animal",
+            "displayLabel": "animal",
+            "color": "#ff5500",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "group of animals",
+            "displayLabel": "group of animals",
+            "color": "#00ffa0",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "wheelchair",
+            "displayLabel": "wheelchair",
+            "color": "#ea00ff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "drag shoe",
+            "displayLabel": "drag shoe",
+            "color": "#caff00",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "track",
+            "displayLabel": "track",
+            "color": "#007fff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "transition",
+            "displayLabel": "transition",
+            "color": "#ff0035",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "switch",
+            "displayLabel": "switch",
+            "color": "#00ff16",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "catenary pole",
+            "displayLabel": "catenary pole",
+            "color": "#6000ff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "signal pole",
+            "displayLabel": "signal pole",
+            "color": "#ffab00",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "signal",
+            "displayLabel": "signal",
+            "color": "#00fff5",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "signal bridge",
+            "displayLabel": "signal bridge",
+            "color": "#ff00bf",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "buffer stop",
+            "displayLabel": "buffer stop",
+            "color": "#74ff00",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "flame",
+            "displayLabel": "flame",
+            "color": "#002aff",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "smoke",
+            "displayLabel": "smoke",
+            "color": "#ff2100",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }, {
+        "value": {
+            "tag": "bug",
+            "displayLabel": "bug",
+            "color": "#00ff6b",
+            "attributes": [],
+            "displayData": {}
+        },
+        "children": []
+    }],
+    "metadata": {
+        "system": {
+            "projectIds": ["abdc1b39-a6dc-4dbf-9ce5-8c4a00473936"],
+            "system": false
+        },
+        "attributes": [{
+            "key": "1",
+            "type": "options",
+            "scope": ["person"],
+            "values": ["passenger", "worker", "securityStaff", "otherStaff", "uniformedPerson ", "other", "unknown"],
+            "scriptData": {
+                "scope": "@ontology.sections.1.scope",
+                "title": "function",
+                "key": "1",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "3",
+            "type": "options",
+            "scope": ["person"],
+            "values": ["adult", "child"],
+            "scriptData": {
+                "scope": "@ontology.sections.3.scope",
+                "title": "age",
+                "key": "3",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "4",
+            "type": "options",
+            "scope": ["person"],
+            "values": ["none", "whiteCane", "walkingAid", "other"],
+            "scriptData": {
+                "scope": "@ontology.sections.4.scope",
+                "title": "aid",
+                "key": "4",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "5",
+            "type": "boolean",
+            "scope": ["person"],
+            "scriptData": {
+                "scope": "@ontology.sections.5.scope",
+                "title": "isDistracted",
+                "key": "5",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "6",
+            "type": "options",
+            "scope": ["person"],
+            "values": ["none", "suitcase", "backpack", "umbrella", "baby", "other"],
+            "scriptData": {
+                "scope": "@ontology.sections.6.scope",
+                "title": "carrying",
+                "key": "6",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "7",
+            "type": "freeText",
+            "scope": ["person", "train", "bicycle", "road vehicle", "signal pole", "signal", "wagons", "motorcycle", "wheelchair", "signal bridge"],
+            "scriptData": {
+                "scope": "@ontology.sections.7.scope",
+                "title": "connectedTo",
+                "key": "7",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "8",
+            "type": "options",
+            "scope": ["person", "animal"],
+            "values": ["upright", "sitting", "lying", "other"],
+            "scriptData": {
+                "scope": "@ontology.sections.8.scope",
+                "title": "pose",
+                "key": "8",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "9",
+            "type": "options",
+            "scope": ["*"],
+            "values": ["0-25%", "25-50%", "50-75%", "75-99%", "100%", "unidentified"],
+            "scriptData": {
+                "scope": "@ontology.sections.9.scope",
+                "title": "occlusion",
+                "key": "9",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "10",
+            "type": "options",
+            "scope": ["crowd"],
+            "values": ["<25", "25-50", "50-75", ">75"],
+            "scriptData": {
+                "scope": "@ontology.sections.10.scope",
+                "title": "size",
+                "key": "10",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "11",
+            "type": "options",
+            "scope": ["train"],
+            "values": ["regional", "locomotive", "intercity", "commuter", "construction", "other"],
+            "scriptData": {
+                "scope": "@ontology.sections.11.scope",
+                "title": "type",
+                "key": "11",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "12",
+            "type": "boolean",
+            "scope": ["train"],
+            "scriptData": {
+                "scope": "@ontology.sections.12.scope",
+                "title": "isTruncated-Front",
+                "key": "12",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "13",
+            "type": "boolean",
+            "scope": ["train"],
+            "scriptData": {
+                "scope": "@ontology.sections.13.scope",
+                "title": "isTruncated-Back",
+                "key": "13",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "14",
+            "type": "boolean",
+            "scope": ["train"],
+            "scriptData": {
+                "scope": "@ontology.sections.14.scope",
+                "title": "isFront",
+                "key": "14",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "15",
+            "type": "options",
+            "scope": ["bicycle"],
+            "values": ["pushed", "ridden", "carried", "steady"],
+            "scriptData": {
+                "scope": "@ontology.sections.15.scope",
+                "title": "state",
+                "key": "15",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "16",
+            "type": "options",
+            "scope": ["road vehicle"],
+            "values": ["car", "van", "bus", "constructionVehicle", "trailer", "other"],
+            "scriptData": {
+                "scope": "@ontology.sections.16.scope",
+                "title": "type",
+                "key": "16",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "17",
+            "type": "options",
+            "scope": ["track"],
+            "values": ["0", "+1", "+2", "-1", "-2"],
+            "scriptData": {
+                "scope": "@ontology.sections.17.scope",
+                "title": "trackID",
+                "key": "17",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "18",
+            "type": "options",
+            "scope": ["track", "transition"],
+            "values": ["left Rail", "right Rail"],
+            "scriptData": {
+                "scope": "@ontology.sections.18.scope",
+                "title": "railSide",
+                "key": "18",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "19",
+            "type": "options",
+            "scope": ["switch", "drag shoe"],
+            "values": ["0", "+1", "+2", "-1", "-2"],
+            "scriptData": {
+                "scope": "@ontology.sections.19.scope",
+                "title": "onTrack",
+                "key": "19",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "20",
+            "type": "options",
+            "scope": ["switch"],
+            "values": ["center", "left", "right", "unknown"],
+            "scriptData": {
+                "scope": "@ontology.sections.20.scope",
+                "title": "state",
+                "key": "20",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "21",
+            "type": "options",
+            "scope": ["catenary pole", "signal pole", "signal bridge"],
+            "values": ["solid", "structured"],
+            "scriptData": {
+                "scope": "@ontology.sections.21.scope",
+                "title": "type",
+                "key": "21",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "22",
+            "type": "boolean",
+            "scope": ["catenary pole", "signal pole"],
+            "scriptData": {
+                "scope": "@ontology.sections.22.scope",
+                "title": "isTruncatedTop",
+                "key": "22",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "23",
+            "type": "boolean",
+            "scope": ["catenary pole", "signal pole"],
+            "scriptData": {
+                "scope": "@ontology.sections.23.scope",
+                "title": "isTruncatedBottom",
+                "key": "23",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "24",
+            "type": "options",
+            "scope": ["signal"],
+            "values": ["light", "shape"],
+            "scriptData": {
+                "scope": "@ontology.sections.24.scope",
+                "title": "type",
+                "key": "24",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "25",
+            "type": "options",
+            "scope": ["signal"],
+            "values": ["front", "back", "unknown"],
+            "scriptData": {
+                "scope": "@ontology.sections.25.scope",
+                "title": "signalFace",
+                "key": "25",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "2",
+            "type": "boolean",
+            "scope": ["person"],
+            "scriptData": {
+                "scope": "@ontology.sections.2.scope",
+                "title": "isDummy",
+                "key": "2",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "26",
+            "type": "options",
+            "scope": ["animal"],
+            "values": ["small", "medium", "large"],
+            "scriptData": {
+                "scope": "@ontology.sections.26.scope",
+                "title": "size",
+                "key": "26",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "27",
+            "type": "options",
+            "scope": ["animal"],
+            "values": ["dog", "deer", "fox", "rabbit", "wildBoar", "cow", "otherAnimal"],
+            "scriptData": {
+                "scope": "@ontology.sections.27.scope",
+                "title": "species",
+                "key": "27",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "28",
+            "type": "options",
+            "scope": ["drag shoe"],
+            "values": ["leftRail", "rightRail", "none"],
+            "scriptData": {
+                "scope": "@ontology.sections.28.scope",
+                "title": "railSide",
+                "key": "28",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "29",
+            "type": "options",
+            "scope": ["transition"],
+            "values": ["0", "+1", "+2", "-1", "-2"],
+            "scriptData": {
+                "scope": "@ontology.sections.29.scope",
+                "title": "startTrack",
+                "key": "29",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "30",
+            "type": "options",
+            "scope": ["transition"],
+            "values": ["0", "+1", "+2", "-1", "-2"],
+            "scriptData": {
+                "scope": "@ontology.sections.30.scope",
+                "title": "endTrack",
+                "key": "30",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "31",
+            "type": "boolean",
+            "scope": ["signal bridge"],
+            "scriptData": {
+                "scope": "@ontology.sections.31.scope",
+                "title": "isTruncatedLeft",
+                "key": "31",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "32",
+            "type": "boolean",
+            "scope": ["signal bridge"],
+            "scriptData": {
+                "scope": "@ontology.sections.32.scope",
+                "title": "isTruncatedRight",
+                "key": "32",
+                "optional": true,
+                "multi": true
+            }
+        }, {
+            "key": "33",
+            "type": "options",
+            "scope": ["buffer stop"],
+            "values": ["0", "+1", "+2", "-1", "-2", "other", "none"],
+            "scriptData": {
+                "scope": "@ontology.sections.33.scope",
+                "title": "onTrack",
+                "key": "33",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "34",
+            "type": "options",
+            "scope": ["flame", "smoke"],
+            "values": ["small", "big"],
+            "scriptData": {
+                "scope": "@ontology.sections.34.scope",
+                "title": "size",
+                "key": "34",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "35",
+            "type": "options",
+            "scope": ["smoke"],
+            "values": ["grey", "white", "black", "other"],
+            "scriptData": {
+                "scope": "@ontology.sections.35.scope",
+                "title": "color",
+                "key": "35",
+                "optional": true,
+                "multi": false
+            }
+        }, {
+            "key": "36",
+            "type": "freeText",
+            "scope": ["*"],
+            "scriptData": {
+                "scope": "@ontology.sections.36.scope",
+                "title": "Comment on Issue",
+                "key": "36",
+                "optional": true,
+                "multi": true
+            }
+        }]
+    }
+}
