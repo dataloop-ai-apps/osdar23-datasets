@@ -2,6 +2,7 @@ import dtlpy as dl
 import requests
 import os
 import logging
+import json
 
 import custom_converter as lidar
 
@@ -23,8 +24,20 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
 
     # TODO: find how to import the recipe
     def _import_recipe(self, dataset: dl.Dataset):
-        recipe_filepath = os.path.join(os.path.dirname(str(__file__)), self.recipe_filename)
         recipe = dataset.recipes.list()[0]
+
+        new_recipe_filepath = os.path.join(os.path.dirname(str(__file__)), self.recipe_filename)
+        with open(file=new_recipe_filepath, mode='r') as file:
+            new_recipe_json = json.load(fp=file)
+
+        new_recipe = dl.Recipe.from_json(_json=new_recipe_json, client_api=dl.client_api)
+        new_recipe.id = recipe.id
+        new_recipe.creator = recipe.creator
+        new_recipe.project_ids = recipe.project_ids
+        new_recipe.ontology_ids = recipe.ontology_ids
+        new_recipe.metadata["system"]["projectIds"] = recipe.project_ids
+        new_recipe.update()
+        return new_recipe
 
     def _download_zip(self):
         # Download the file
@@ -37,6 +50,7 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
         return zip_filepath
 
     def upload_dataset(self, dataset: dl.Dataset, source: str):
+        self._import_recipe(dataset=dataset)
         if self.zip_filename not in os.listdir(path=os.getcwd()):
             zip_filepath = self._download_zip()
         else:
@@ -57,8 +71,17 @@ def test_download():
     sr._download_zip()
 
 
+def test_dataset_import():
+    dataset_id = "66325a24241a71f884f78431"
+
+    dataset = dl.datasets.get(dataset_id=dataset_id)
+    sr = DatasetLidarOSDAR()
+    sr._import_recipe(dataset=dataset)
+
+
 def main():
-    test_download()
+    # test_download()
+    test_dataset_import()
 
 
 if __name__ == '__main__':

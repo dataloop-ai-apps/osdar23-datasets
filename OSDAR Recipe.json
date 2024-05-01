@@ -1,6 +1,7 @@
 {
     "id": null,
     "creator": null,
+    "projectIds": null,
     "title": "DB Recipe",
     "roots": [{
         "value": {
@@ -212,7 +213,7 @@
     }],
     "metadata": {
         "system": {
-            "projectIds": ["abdc1b39-a6dc-4dbf-9ce5-8c4a00473936"],
+            "projectIds": null,
             "system": false
         },
         "attributes": [{
