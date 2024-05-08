@@ -241,7 +241,6 @@ class LidarCustomParser(LidarFileMappingParser):
 
             # Loop through images
             for idx, image in enumerate(self.camera_list):
-                cur_idx = (idx + 3) % 6
                 # Get sensor
                 sensor_reference = frame.sensors[image]
 
@@ -263,7 +262,7 @@ class LidarCustomParser(LidarFileMappingParser):
                         "frame": int(frame_num),
                         "image_uri": sensor_reference.uri,
                     },
-                    "image_path": f"frames/{lidar_frame}/{cur_idx}{ext}",
+                    "image_path": f"frames/{lidar_frame}/{idx}{ext}",
                     "timestamp": float(sensor_reference.timestamp),
                     "intrinsics": {
                         "fx": sensor_reference.sensor.intrinsics.camera_matrix[0],
