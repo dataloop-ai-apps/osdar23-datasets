@@ -498,17 +498,17 @@ class LidarCustomParser(LidarFileMappingParser):
             annotations = frame.annotations
             anno_count += len(annotations)
             for annotation_id, annotation in annotations.items():
-                # Option 1: IR images
-                if 'ir' not in annotation.sensor.uid:
-                    continue
+                # # Option 1: IR images
+                # if 'ir' not in annotation.sensor.uid:
+                #     continue
 
                 # # Option 2: RGB images
                 # if not ('rgb' in annotation.sensor.uid and 'rgb_highres' not in annotation.sensor.uid):
                 #     continue
 
-                # # Option 3: RGB Highres images
-                # if 'rgb_highres' not in annotation.sensor.uid:
-                #     continue
+                # Option 3: RGB Highres images
+                if 'rgb_highres' not in annotation.sensor.uid:
+                    continue
 
                 label = annotation.object.type.replace('_', ' ')
                 attributes = dict()
