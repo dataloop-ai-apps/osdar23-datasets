@@ -13,8 +13,8 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
     def __init__(self):
         dl.use_attributes_2(state=True)
 
-        # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.2.zip"
-        self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/9_station_ruebenkamp_9.7.zip"
+        self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.2.zip"
+        # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/9_station_ruebenkamp_9.7.zip"
         self.zip_filename = "data.zip"
         self.ontology_filename = "OSDAR Ontology.json"
 
@@ -78,7 +78,7 @@ def test_import_recipe_ontology():
 
 
 def test_dataset_import():
-    dataset_id = "66325a24241a71f884f78431"
+    dataset_id = "663b87c5913e36f516ca251b"
 
     dataset = dl.datasets.get(dataset_id=dataset_id)
     sr = DatasetLidarOSDAR()
@@ -87,8 +87,8 @@ def test_dataset_import():
 
 def main():
     # test_download()
-    test_import_recipe_ontology()
-    # test_dataset_import()
+    # test_import_recipe_ontology()
+    test_dataset_import()
 
 
 if __name__ == '__main__':
