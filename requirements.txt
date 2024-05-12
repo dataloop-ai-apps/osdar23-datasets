@@ -4,4 +4,4 @@ numba
 shapely
 raillabel
 scipy
-dtlpy-lidar
+git+https://github.com/dataloop-ai-apps/dtlpy-lidar
