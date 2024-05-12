@@ -1,4 +1,4 @@
-# Dataset adapter for Lidar OSDAR Dataset
+# Dataset adapter for OSDaR23 Dataset
 
 This dataset adapter is designed to facilitate the transformation of the Lidar Open Sensor Data for Rail 2023 (OSDaR23) 
 dataset from zip into a format compatible with Dataloop platform.\
