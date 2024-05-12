@@ -10,7 +10,8 @@ from scipy.spatial.transform import Rotation
 import math
 import numpy as np
 from io import BytesIO
-from base_parser import LidarFileMappingParser
+
+from dtlpylidar.parsers.base_parser import LidarFileMappingParser
 
 
 class FixTransformation:
