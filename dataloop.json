@@ -15,11 +15,30 @@
     "License": "CC BY-SA 3.0 de"
   },
   "components": {
+    "computeConfigs": [
+      {
+        "name": "osdar-deploy",
+        "runtime": {
+          "podType": "regular-xs",
+          "concurrency": 10,
+          "runnerImage": "python:3.9-slim",
+          "autoscaler": {
+            "type": "rabbitmq",
+            "minReplicas": 0,
+            "maxReplicas": 1,
+            "queueLength": 100
+          },
+          "preemptible": false
+        },
+        "secrets": []
+      }
+    ],
     "modules": [
       {
         "name": "dataset-adapter",
         "entryPoint": "dataset_loader.py",
         "className": "DatasetLidarOSDAR",
+        "computeConfig": "osdar-deploy",
         "description": "Dataset adapter for OSDaR2023",
         "initInputs": [],
         "functions": [
