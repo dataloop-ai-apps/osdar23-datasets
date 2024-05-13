@@ -19,7 +19,7 @@
       {
         "name": "osdar-deploy",
         "runtime": {
-          "podType": "regular-xs",
+          "podType": "regular-m",
           "concurrency": 10,
           "runnerImage": "dataloopai/dtlpy-agent:cpu.py3.8.opencv4.7",
           "autoscaler": {
