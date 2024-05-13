@@ -38,12 +38,12 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
         return recipe
 
     def _download_zip(self):
-        # Download the file
-        response = requests.get(url=self.dataset_url)
         zip_filepath = os.path.join(os.getcwd(), self.zip_filename)
-        with open(zip_filepath, 'wb') as file:
-            file.write(response.content)
-
+        with requests.get(self.dataset_url, stream=True) as r:
+            r.raise_for_status()
+            with open(zip_filepath, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
         logger.info(msg=f"File downloaded to: {zip_filepath}")
         return zip_filepath
 
@@ -78,7 +78,7 @@ def test_import_recipe_ontology():
 
 
 def test_dataset_import():
-    dataset_id = "663b87c5913e36f516ca251b"
+    dataset_id = "663b93cfd03cf2f75ddeff4f"
 
     dataset = dl.datasets.get(dataset_id=dataset_id)
     sr = DatasetLidarOSDAR()
