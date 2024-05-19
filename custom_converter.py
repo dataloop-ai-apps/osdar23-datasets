@@ -88,10 +88,10 @@ class LidarCustomParser(LidarFileMappingParser):
         rgb_highres_cameras = ['rgb_highres_center', 'rgb_highres_left', 'rgb_highres_right']
 
         self.camera_list = list()
-        if str(enable_rgb_cameras) == "true" or str(enable_rgb_cameras) == "True":
-            self.camera_list += rgb_cameras
         if str(enable_ir_cameras) == "true" or str(enable_ir_cameras) == "True":
             self.camera_list += ir_cameras
+        if str(enable_rgb_cameras) == "true" or str(enable_rgb_cameras) == "True":
+            self.camera_list += rgb_cameras
         if str(enable_rgb_highres_cameras) == "true" or str(enable_rgb_highres_cameras) == "True":
             self.camera_list += rgb_highres_cameras
 
@@ -316,6 +316,7 @@ class LidarCustomParser(LidarFileMappingParser):
                 local_path=buffer,
                 overwrite=True
             )
+            annotation = annotation_data.get('ref_annotation')
             ann_def = {"type": "ref_semantic_3d",
                        "label": annotation_data.get('label'),
                        "coordinates": {
@@ -328,9 +329,10 @@ class LidarCustomParser(LidarFileMappingParser):
                            "system": {
                                "attributes": annotation_data.get('attributes'),
                                "frame": int(min(annotation_data.get('ref_item_json').get('frames').keys())),
-                               "endFrame": int(max(annotation_data.get('ref_item_json').get('frames').keys())),
-                               "objectId": f"{annotation_uid}",
-                           }
+                               "endFrame": int(max(annotation_data.get('ref_item_json').get('frames').keys()))
+                           },
+                           "object_uid": annotation.object.uid,
+                           "uid": annotation.uid
                        }}
             dl_annotations.append(ann_def)
 
@@ -401,7 +403,8 @@ class LidarCustomParser(LidarFileMappingParser):
                         next_object_id += 1
 
                         metadata = {"object_uid": annotation.object.uid,
-                                    'system': {'frameNumberBased': True}}
+                                    "system": {"frameNumberBased": True},
+                                    "uid": annotation.uid}
                         builder.add(
                             annotation_definition=annotation_definition,
                             frame_num=lidar_frame,
@@ -438,9 +441,10 @@ class LidarCustomParser(LidarFileMappingParser):
                         "metadata": {
                             "system": {
                                 "frame": lidar_frame,
-                                "objectId": f"{annotation.object.uid}",
                                 "attributes": attributes
-                            }
+                            },
+                            "object_uid": f"{annotation.object.uid}",
+                            "uid": annotation.uid
                         }
                     }
                     for point_3d in annotation.points:
@@ -458,9 +462,12 @@ class LidarCustomParser(LidarFileMappingParser):
                                 "frames": {}
                             },
                             "label": label,
-                            "attributes": attributes}
+                            "attributes": attributes,
+                            "ref_annotation": annotation}
                     ref_items_dict[annotation.uid]['ref_item_json']["frames"][str(lidar_frame)] = annotation.point_ids
-        self.upload_sem_ref_items(frames_item, ref_items_dict, dl_annotations)
+        self.upload_sem_ref_items(frames_item=frames_item,
+                                  ref_items_dict=ref_items_dict,
+                                  dl_annotations=dl_annotations)
         # TODO: try to use one annotation list for upload
         frames_item.annotations.upload(dl_annotations)
         print(f"Annotations Object UID Mapping: {object_id_map}")
@@ -512,6 +519,8 @@ class LidarCustomParser(LidarFileMappingParser):
 
                 label = annotation.object.type.replace('_', ' ')
                 attributes = dict()
+                metadata = {"object_uid": annotation.object.uid,
+                            "uid": annotation.uid}
                 for key, value in annotation.attributes.items():
                     if isinstance(value, bool) or key == 'carrying':
                         attributes[self.attributes_id_mapping_dict.get(key)] = value
@@ -529,7 +538,8 @@ class LidarCustomParser(LidarFileMappingParser):
                                                              top=top,
                                                              bottom=bottom,
                                                              label=label,
-                                                             attributes=attributes))
+                                                             attributes=attributes),
+                                metadata=metadata)
                 if isinstance(annotation, raillabel.format.Poly2d):
                     img_num = 0 if 'center' in annotation.name else 1 if 'left' in annotation.name else 2
                     builder = images_dict[lidar_frame][img_num]['builder']
@@ -539,7 +549,8 @@ class LidarCustomParser(LidarFileMappingParser):
                     polyline_geo = dl.Polyline.from_coordinates(coordinates=coordinates)
                     builder.add(annotation_definition=dl.Polyline(geo=polyline_geo,
                                                                   label=label,
-                                                                  attributes=attributes))
+                                                                  attributes=attributes),
+                                metadata=metadata)
         for frame_num, images in images_dict.items():
             for image_num, image in images.items():
                 if len(image['builder']) > 0:
@@ -580,6 +591,8 @@ class LidarCustomParser(LidarFileMappingParser):
             annotations = frame.annotations
             for annotation_id, annotation in annotations.items():
                 if annotation.sensor.uid == "radar":
+                    metadata = {"object_uid": annotation.object.uid,
+                                "uid": annotation.uid}
                     if isinstance(annotation, raillabel.format.Bbox):
                         label = annotation.object.type.replace('_', ' ')
                         attributes = dict()
@@ -599,7 +612,8 @@ class LidarCustomParser(LidarFileMappingParser):
                                 bottom=bottom,
                                 label=label,
                                 attributes=attributes
-                            )
+                            ),
+                            metadata=metadata
                         )
                     elif isinstance(annotation, raillabel.format.Poly2d):
                         label = annotation.object.type.replace('_', ' ')
@@ -617,7 +631,8 @@ class LidarCustomParser(LidarFileMappingParser):
                                 geo=polyline_geo,
                                 label=label,
                                 attributes=attributes
-                            )
+                            ),
+                            metadata=metadata
                         )
                     else:
                         print(f"Encountered unsupported type {type(annotation)}")
@@ -651,12 +666,12 @@ class LidarCustomParser(LidarFileMappingParser):
 
 def main():
     cp = LidarCustomParser(
-        enable_ir_cameras="true",
-        enable_rgb_cameras="true",
-        enable_rgb_highres_cameras="false"
+        enable_ir_cameras="false",
+        enable_rgb_cameras="false",
+        enable_rgb_highres_cameras="true"
     )
 
-    data_path = "../data"
+    data_path = "./data"
     dataset = dl.datasets.get(dataset_id="66099e6289c8593e33498ce1")
 
     # cp.upload_pcds_and_images(data_path=data_path, dataset=dataset)
