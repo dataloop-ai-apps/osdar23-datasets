@@ -131,21 +131,6 @@ class LidarCustomParser(LidarFileMappingParser):
         data_path = os.path.join(os.getcwd(), data_path)
         return data_path
 
-    @staticmethod
-    def create_lidar_dataset(item: dl.Item, overwrite: bool):
-        dataset_name = item.name
-
-        try:
-            dataset = item.project.datasets.create(dataset_name=dataset_name)
-        except:
-            if overwrite:
-                dataset = item.project.datasets.get(dataset_name=dataset_name)
-            else:
-                dataset_name += f'_{datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")}'
-                dataset = item.project.datasets.create(dataset_name=dataset_name)
-
-        return dataset
-
     def upload_pcds_and_images(self, data_path: str, dataset: dl.Dataset):
         scene = None
         dir_items = os.listdir(path=data_path)
@@ -558,97 +543,6 @@ class LidarCustomParser(LidarFileMappingParser):
                     image['builder'].item.annotations.delete(filters=filters)
                     image['builder'].upload()
 
-    def upload_radar_with_annotations(self, dataset: dl.Dataset, data_path: str):
-        scene = None
-        dir_items = os.listdir(path=data_path)
-        for dir_item in dir_items:
-            if ".json" in dir_item:
-                try:
-                    calibration_json = os.path.join(data_path, dir_item)
-                    scene = raillabel.load(calibration_json)
-                    break
-                except:
-                    continue
-
-        if scene is None:
-            dl.exceptions.NotFound("Couldn't find supported json for 'raillabel'")
-
-        images_dict = dict()
-        radar_images_path = os.path.join(data_path, "radar")
-        image_filepaths = os.listdir(radar_images_path)
-        for image_filepath in image_filepaths:
-            frame_num = image_filepath.split("_")[0]
-            images_dict[frame_num] = {
-                "image_filepath": os.path.join(radar_images_path, image_filepath),
-                "builder": dl.AnnotationCollection()
-            }
-
-        # Loop through frames
-        self.attributes_id_mapping(dataset=dataset)
-        frames = scene.frames
-        for lidar_frame, (frame_num, frame) in enumerate(frames.items()):
-            print(f"Frame: {lidar_frame}")
-            annotations = frame.annotations
-            for annotation_id, annotation in annotations.items():
-                if annotation.sensor.uid == "radar":
-                    metadata = {"object_uid": annotation.object.uid,
-                                "uid": annotation.uid}
-                    if isinstance(annotation, raillabel.format.Bbox):
-                        label = annotation.object.type.replace('_', ' ')
-                        attributes = dict()
-                        for key, value in annotation.attributes.items():
-                            attributes[self.attributes_id_mapping_dict.get(key)] = value
-
-                        builder = images_dict[str(frame_num)]['builder']
-                        left = annotation.pos.x - annotation.size.x / 2
-                        top = annotation.pos.y - annotation.size.y / 2
-                        right = annotation.pos.x + annotation.size.x / 2
-                        bottom = annotation.pos.y + annotation.size.y / 2
-                        builder.add(
-                            annotation_definition=dl.Box(
-                                left=left,
-                                right=right,
-                                top=top,
-                                bottom=bottom,
-                                label=label,
-                                attributes=attributes
-                            ),
-                            metadata=metadata
-                        )
-                    elif isinstance(annotation, raillabel.format.Poly2d):
-                        label = annotation.object.type.replace('_', ' ')
-                        attributes = dict()
-                        for key, value in annotation.attributes.items():
-                            attributes[self.attributes_id_mapping_dict.get(key)] = value
-
-                        builder = images_dict[str(frame_num)]['builder']
-                        coordinates = list()
-                        for point in annotation.points:
-                            coordinates.append({'x': point.x, 'y': point.y})
-                        polyline_geo = dl.Polyline.from_coordinates(coordinates=coordinates)
-                        builder.add(
-                            annotation_definition=dl.Polyline(
-                                geo=polyline_geo,
-                                label=label,
-                                attributes=attributes
-                            ),
-                            metadata=metadata
-                        )
-                    else:
-                        print(f"Encountered unsupported type {type(annotation)}")
-                        continue
-                else:
-                    continue
-        for image_data in images_dict.values():
-            item = dataset.items.upload(
-                local_path=image_data["image_filepath"],
-                remote_path="/radar",
-                overwrite=True
-            )
-            item.annotations.upload(image_data["builder"])
-
-        return images_dict
-
     def custom_parse_data(self, zip_filepath: str, lidar_dataset: dl.Dataset):
         data_path = self.extract_zip_file(zip_filepath=zip_filepath)
 
@@ -682,8 +576,6 @@ def main():
     # frames_item = dataset.items.get(filepath="/frames.json")
     cp.upload_pre_annotation_lidar(frames_item=frames_item, data_path=data_path)
     # cp.upload_pre_annotation_images(frames_item=frames_item, data_path=data_path)
-
-    # cp.upload_radar_with_annotations(dataset=dataset, data_path=data_path)
 
 
 if __name__ == "__main__":
