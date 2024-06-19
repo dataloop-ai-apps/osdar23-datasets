@@ -6,9 +6,8 @@ The adapter simplifies the process of importing and preparing the dataset for va
 
 ## Installation
 
-1. Navigate to Startline.
-2. Select Datasets.
-3. Click on Install.
-4. After a while, a new dataset will be created and visible under your Data section.
-
-# Check docker: dataloopai/dtlpy-agent:cpu.py3.8.opencv4.7
+1. Navigate to **Startline**.
+2. Select **Datasets**. \
+   ![startline.png](assets%2Fstartline.png)
+3. Click on **Install**.
+4. After a while, a new dataset will be created and visible under your **Data** section.
