@@ -3,7 +3,6 @@ import os
 import json
 import raillabel
 import uuid
-import datetime
 import shutil
 from zipfile import ZipFile
 from scipy.spatial.transform import Rotation
@@ -397,7 +396,6 @@ class LidarCustomParser(LidarFileMappingParser):
                             object_id=str(object_id),
                             metadata=metadata
                         )
-                    # TODO: support annotation.uid, no need for if else
                     # Add frame for the existing annotation
                     else:
                         for idx, builder_annotation in enumerate(builder):
@@ -453,7 +451,6 @@ class LidarCustomParser(LidarFileMappingParser):
         self.upload_sem_ref_items(frames_item=frames_item,
                                   ref_items_dict=ref_items_dict,
                                   dl_annotations=dl_annotations)
-        # TODO: try to use one annotation list for upload
         frames_item.annotations.upload(dl_annotations)
         print(f"Annotations Object UID Mapping: {object_id_map}")
         builder.upload()
