@@ -13,8 +13,11 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
     def __init__(self):
         dl.use_attributes_2(state=True)
 
-        self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.2.zip"
-        # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/9_station_ruebenkamp_9.7.zip"
+        # Original sources
+        # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.1.zip"  # 10 Frame
+        # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.2.zip"  # 100 Frames
+
+        self.dataset_url = "https://storage.googleapis.com/model-mgmt-snapshots/datasets-OSDAR2023/1_calibration_1_1_subset.zip"
         self.zip_filename = "data.zip"
         self.ontology_filename = "OSDAR Ontology.json"
 
