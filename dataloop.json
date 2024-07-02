@@ -1,0 +1,80 @@
+{
+    "displayName": "OSDaR23 Dataset",
+    "name": "osdar23-dataset",
+    "description": "The \"Open Sensor Data for Rail 2023\" (OSDaR23, https://data.fid-move.de/dataset/osdar23) has been created in a joint research project by the German Center for Rail Traffic Research at the Federal Railway Authority (DZSF) , Digitale Schiene Deutschland / DB Netz AG , and FusionSystems GmbH . Research report and Labeling Guide can be obtained from the DZSF website. The data set consists of 45 sequences of annotated multi-sensor data (color camera, infrared camera, lidar, radar, localization, IMU). Data have been collected on different railway tracks in Hamburg, Germany.",
+    "scope": "public",
+    "version": "0.0.1",
+    "attributes": {
+        "Category": "Dataset",
+        "Hub": "Dataloop",
+        "Provider": "German Center for Rail Traffic Research at the Federal Railway Authority (DZSF)",
+        "Media Type": "LiDAR",
+        "License": "CC BY-SA 3.0"
+    },
+    "codebase": {
+        "type": "git",
+        "gitUrl": "https://github.com/dataloop-ai-apps/datasets-lidar-osdar.git",
+        "gitTag": "0.0.1"
+    },
+    "components": {
+        "computeConfigs": [
+            {
+                "name": "osdar-deploy",
+                "runtime": {
+                    "podType": "regular-m",
+                    "concurrency": 10,
+                    "runnerImage": "gcr.io/viewo-g/piper/agent/cpu/osdar23-datasets:cpu.py3.8.opencv4.7",
+                    "autoscaler": {
+                        "type": "rabbitmq",
+                        "minReplicas": 0,
+                        "maxReplicas": 1,
+                        "queueLength": 100
+                    },
+                    "preemptible": false
+                },
+                "secrets": []
+            }
+        ],
+        "modules": [
+            {
+                "name": "dataset-adapter",
+                "entryPoint": "dataset_loader.py",
+                "className": "DatasetLidarOSDAR",
+                "computeConfig": "osdar-deploy",
+                "description": "Dataset adapter for OSDaR2023",
+                "initInputs": [],
+                "functions": [
+                    {
+                        "name": "upload_dataset",
+                        "input": [
+                            {
+                                "type": "Dataset",
+                                "name": "dataset",
+                                "description": "Dataloop Dataset Entity"
+                            },
+                            {
+                                "type": "String",
+                                "name": "source",
+                                "description": "Dataset source URL"
+                            }
+                        ],
+                        "output": [],
+                        "displayName": "upload_dataset",
+                        "displayIcon": "",
+                        "description": "function to upload dataset to Dataloop"
+                    }
+                ]
+            }
+        ],
+        "datasets": [
+            {
+                "name": "osdar23",
+                "docs": "https://www.dzsf.bund.de/SharedDocs/Standardartikel/DZSF/Projekte/Projekt_70_Reale_Datensaetze.html",
+                "source": "https://data.fid-move.de/dataset/osdar23",
+                "invoke": {
+                    "namespace": "dataset-adapter.upload_dataset"
+                }
+            }
+        ]
+    }
+}
