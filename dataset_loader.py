@@ -19,7 +19,7 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
 
         self.dataset_url = "https://storage.googleapis.com/model-mgmt-snapshots/datasets-OSDAR2023/1_calibration_1_1_subset.zip"
         self.zip_filename = "data.zip"
-        self.ontology_filename = "OSDAR Ontology.json"
+        self.ontology_filename = "osdar_ontology.json"
 
         self.enable_ir_cameras = "false"
         self.enable_rgb_cameras = "false"
