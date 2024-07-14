@@ -3,7 +3,7 @@
     "name": "osdar23-dataset",
     "description": "The \"Open Sensor Data for Rail 2023\" (OSDaR23, https://data.fid-move.de/dataset/osdar23) has been created in a joint research project by the German Center for Rail Traffic Research at the Federal Railway Authority (DZSF) , Digitale Schiene Deutschland / DB Netz AG , and FusionSystems GmbH . Research report and Labeling Guide can be obtained from the DZSF website. The data set consists of 45 sequences of annotated multi-sensor data (color camera, infrared camera, lidar, radar, localization, IMU). Data have been collected on different railway tracks in Hamburg, Germany.",
     "scope": "public",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "attributes": {
         "Category": "Dataset",
         "Hub": "Dataloop",
@@ -14,7 +14,7 @@
     "codebase": {
         "type": "git",
         "gitUrl": "https://github.com/dataloop-ai-apps/datasets-lidar-osdar.git",
-        "gitTag": "0.0.2"
+        "gitTag": "0.0.3"
     },
     "components": {
         "computeConfigs": [
