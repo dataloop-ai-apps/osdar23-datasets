@@ -26,18 +26,14 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
         self.enable_rgb_highres_cameras = "true"
 
     def _import_recipe_ontology(self, dataset: dl.Dataset):
-        recipe = dataset.recipes.list()[0]
-        ontology = recipe.ontologies.list()[0]
+        recipe: dl.Recipe = dataset.recipes.list()[0]
+        ontology: dl.Ontology = recipe.ontologies.list()[0]
 
         new_ontology_filepath = os.path.join(os.path.dirname(str(__file__)), self.ontology_filename)
         with open(file=new_ontology_filepath, mode='r') as file:
             new_ontology_json = json.load(fp=file)
 
-        new_ontology = dl.Ontology.from_json(_json=new_ontology_json, client_api=dl.client_api, recipe=recipe)
-        new_ontology.id = ontology.id
-        new_ontology.creator = ontology.creator
-        new_ontology.metadata["system"]["projectIds"] = recipe.project_ids
-        new_ontology.update()
+        ontology.copy_from(ontology_json=new_ontology_json)
         return recipe
 
     def _download_zip(self):
