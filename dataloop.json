@@ -7,7 +7,7 @@
     "attributes": {
         "Category": "Dataset",
         "Hub": "Dataloop",
-        "Provider": "German Center for Rail Traffic Research at the Federal Railway Authority (DZSF)",
+        "Provider": "FID move",
         "Media Type": "LiDAR",
         "License": "CC BY-SA 3.0"
     },
