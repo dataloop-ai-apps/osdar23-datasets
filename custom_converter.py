@@ -130,7 +130,7 @@ class LidarCustomParser(LidarFileMappingParser):
         data_path = os.path.join(os.getcwd(), data_path)
         return data_path
 
-    def upload_pcds_and_images(self, data_path: str, dataset: dl.Dataset):
+    def upload_pcds_and_images(self, data_path: str, dataset: dl.Dataset, progress: dl.Progress = None):
         scene = None
         dir_items = os.listdir(path=data_path)
         for dir_item in dir_items:
@@ -147,6 +147,8 @@ class LidarCustomParser(LidarFileMappingParser):
 
         # Loop through frames
         frames = scene.frames
+        total_lidar_frames = len(frames)
+        modulo_report = total_lidar_frames // 10
         for lidar_frame, (frame_num, frame) in enumerate(frames.items()):
             # Sensor ego pose
             ego_pose = frame.sensors['lidar']
@@ -178,6 +180,11 @@ class LidarCustomParser(LidarFileMappingParser):
                     f"Uploaded to 'frames' directory, the file: '{image_filepath}', "
                     f"as: '/frames/{lidar_frame}/{idx}{ext}'"
                 )
+
+            if progress is not None:
+                if (lidar_frame + 1) % modulo_report == 0:
+                    _progress = 40 + int(40 * ((lidar_frame + 1) / total_lidar_frames))
+                    progress.update(progress=_progress, message="Uploading source data...")
 
     def create_mapping_json(self, data_path: str, dataset: dl.Dataset):
         scene = None
@@ -540,13 +547,17 @@ class LidarCustomParser(LidarFileMappingParser):
                     image['builder'].item.annotations.delete(filters=filters)
                     image['builder'].upload()
 
-    def custom_parse_data(self, zip_filepath: str, lidar_dataset: dl.Dataset):
+    def custom_parse_data(self, zip_filepath: str, lidar_dataset: dl.Dataset, progress: dl.Progress = None):
         data_path = self.extract_zip_file(zip_filepath=zip_filepath)
 
         try:
-            self.upload_pcds_and_images(data_path=data_path, dataset=lidar_dataset)
+            self.upload_pcds_and_images(data_path=data_path, dataset=lidar_dataset, progress=progress)
+            if progress is not None:
+                progress.update(progress=80, message="Parsing source data...")
             mapping_item = self.create_mapping_json(data_path=data_path, dataset=lidar_dataset)
             frames_item = self.parse_data(mapping_item=mapping_item)
+            if progress is not None:
+                progress.update(progress=90, message="Uploading annotations...")
             self.upload_pre_annotation_lidar(frames_item=frames_item, data_path=data_path)
             self.upload_pre_annotation_images(frames_item=frames_item, data_path=data_path)
         finally:
