@@ -41,14 +41,15 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
         chunk_size = 8192
         with requests.get(self.dataset_url, stream=True) as r:
             r.raise_for_status()
-            total_size = int(r.headers.get('Content-Length', 0))
-            total_chunks = (total_size // chunk_size) + (1 if total_size % chunk_size != 0 else 0)
-            modulo_report = total_chunks // 10
+            if progress is not None:
+                total_size = int(r.headers.get('Content-Length', 0))
+                total_chunks = (total_size // chunk_size) + (1 if total_size % chunk_size != 0 else 0)
+                modulo_report = total_chunks // 10
             with open(zip_filepath, 'wb') as f:
                 for i, chunk in enumerate(r.iter_content(chunk_size=chunk_size)):
                     f.write(chunk)
                     if progress is not None:
-                        if i % modulo_report == 0:
+                        if (i + 1) % modulo_report == 0:
                             _progress = int(40 * ((i + 1) / total_chunks))
                             progress.update(progress=_progress, message="Downloading dataset for source...")
 
