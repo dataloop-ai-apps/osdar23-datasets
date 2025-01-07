@@ -25,7 +25,7 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
         self.enable_rgb_cameras = "false"
         self.enable_rgb_highres_cameras = "true"
 
-    def _import_recipe_ontology(self, dataset: dl.Dataset):
+    def _import_recipe_ontology(self, dataset: dl.Dataset) -> dl.Recipe:
         recipe: dl.Recipe = dataset.recipes.list()[0]
         ontology: dl.Ontology = recipe.ontologies.list()[0]
 
@@ -36,20 +36,27 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
         ontology.copy_from(ontology_json=new_ontology_json)
         return recipe
 
-    def _download_zip(self):
+    def _download_zip(self, progress: dl.Progress = None) -> str:
         zip_filepath = os.path.join(os.getcwd(), self.zip_filename)
+        chunk_size = 8192
         with requests.get(self.dataset_url, stream=True) as r:
             r.raise_for_status()
+            total_size = int(r.headers.get('Content-Length', 0))
+            total_chunks = (total_size // chunk_size) + (1 if total_size % chunk_size != 0 else 0)
             with open(zip_filepath, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=8192):
+                for i, chunk in enumerate(r.iter_content(chunk_size=chunk_size)):
                     f.write(chunk)
+                    if progress is not None:
+                        _progress = int(40 * ((i + 1) // total_chunks))
+                        progress.update(progress=_progress, message="Downloading dataset for source...")
+
         logger.info(msg=f"File downloaded to: {zip_filepath}")
         return zip_filepath
 
-    def upload_dataset(self, dataset: dl.Dataset, source: str):
+    def upload_dataset(self, dataset: dl.Dataset, source: str, progress: dl.Progress = None) -> dl.Item:
         self._import_recipe_ontology(dataset=dataset)
         if self.zip_filename not in os.listdir(path=os.getcwd()):
-            zip_filepath = self._download_zip()
+            zip_filepath = self._download_zip(progress=progress)
         else:
             zip_filepath = os.path.join(os.getcwd(), self.zip_filename)
 
@@ -59,7 +66,8 @@ class DatasetLidarOSDAR(dl.BaseServiceRunner):
             enable_rgb_cameras=self.enable_rgb_cameras,
             enable_rgb_highres_cameras=self.enable_rgb_highres_cameras
         )
-        frames_item = lidar_parser.custom_parse_data(zip_filepath=zip_filepath, lidar_dataset=dataset)
+        frames_item = lidar_parser.custom_parse_data(zip_filepath=zip_filepath, lidar_dataset=dataset,
+                                                     progress=progress)
         return frames_item
 
 
