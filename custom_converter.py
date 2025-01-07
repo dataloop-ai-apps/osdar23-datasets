@@ -183,7 +183,7 @@ class LidarCustomParser(LidarFileMappingParser):
 
             if progress is not None:
                 if (lidar_frame + 1) % modulo_report == 0:
-                    _progress = int(80 * ((lidar_frame + 1) / total_lidar_frames))
+                    _progress = 40 + int(40 * ((lidar_frame + 1) / total_lidar_frames))
                     progress.update(progress=_progress, message="Uploading source data...")
 
     def create_mapping_json(self, data_path: str, dataset: dl.Dataset):
