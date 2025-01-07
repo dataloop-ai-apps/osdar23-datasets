@@ -148,6 +148,7 @@ class LidarCustomParser(LidarFileMappingParser):
         # Loop through frames
         frames = scene.frames
         total_lidar_frames = len(frames)
+        modulo_report = total_lidar_frames // 10
         for lidar_frame, (frame_num, frame) in enumerate(frames.items()):
             # Sensor ego pose
             ego_pose = frame.sensors['lidar']
@@ -181,8 +182,9 @@ class LidarCustomParser(LidarFileMappingParser):
                 )
 
             if progress is not None:
-                _progress = int(80 * ((lidar_frame + 1) / total_lidar_frames))
-                progress.update(progress=_progress, message="Uploading source data...")
+                if lidar_frame % modulo_report == 0:
+                    _progress = int(80 * ((lidar_frame + 1) / total_lidar_frames))
+                    progress.update(progress=_progress, message="Uploading source data...")
 
     def create_mapping_json(self, data_path: str, dataset: dl.Dataset):
         scene = None
