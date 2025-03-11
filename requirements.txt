@@ -3,3 +3,6 @@ shapely
 raillabel
 scipy
 git+https://github.com/dataloop-ai-apps/dtlpy-lidar
+numpy>=1.22.2 # not directly required, pinned by Snyk to avoid a vulnerability
+setuptools>=70.0.0 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
