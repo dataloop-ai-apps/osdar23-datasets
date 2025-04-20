@@ -11,8 +11,6 @@ logger = logging.getLogger(name='osdar-dataset')
 
 class DatasetLidarOSDAR(dl.BaseServiceRunner):
     def __init__(self):
-        dl.use_attributes_2(state=True)
-
         # Original sources
         # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.1.zip"  # 10 Frame
         # self.dataset_url = "https://download.data.fid-move.de/dzsf/osdar23/1_calibration_1.2.zip"  # 100 Frames

@@ -9,6 +9,11 @@
         "Hub": "Dataloop",
         "Provider": "FID move",
         "Media Type": "LiDAR",
+        "Annotation Type": [
+            "Cuboid",
+            "Semantic Segmentation",
+            "Polyline"
+        ],
         "License": "CC BY-SA 3.0"
     },
     "codebase": {
