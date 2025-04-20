@@ -6,7 +6,7 @@ import json
 
 import custom_converter as lidar
 
-logger = logging.getLogger(name='osdar23-dataset')
+logger = logging.getLogger(name='osdar-dataset')
 
 
 class DatasetLidarOSDAR(dl.BaseServiceRunner):
