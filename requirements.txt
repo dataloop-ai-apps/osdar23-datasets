@@ -1,5 +1,0 @@
-numba
-shapely
-raillabel
-scipy
-git+https://github.com/dataloop-ai-apps/dtlpy-lidar
