@@ -28,7 +28,7 @@
                 "runtime": {
                     "podType": "regular-m",
                     "concurrency": 10,
-                    "runnerImage": "gcr.io/viewo-g/piper/agent/cpu/osdar23-datasets:cpu.py3.8.opencv4.7",
+                    "runnerImage": "gcr.io/viewo-g/piper/agent/runner/apps/osdar23-datasets:0.0.3",
                     "autoscaler": {
                         "type": "rabbitmq",
                         "minReplicas": 0,
