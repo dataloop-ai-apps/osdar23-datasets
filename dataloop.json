@@ -6,7 +6,7 @@
     "version": "0.0.6",
     "attributes": {
         "Category": "Dataset",
-        "Hub": "Dataloop",
+        "Hub": "DDOE",
         "Provider": "FID move",
         "Media Type": "LiDAR",
         "Annotation Type": [
@@ -55,7 +55,7 @@
                             {
                                 "type": "Dataset",
                                 "name": "dataset",
-                                "description": "Dataloop Dataset Entity"
+                                "description": "DDOE Dataset Entity"
                             },
                             {
                                 "type": "String",
@@ -66,7 +66,7 @@
                         "output": [],
                         "displayName": "upload_dataset",
                         "displayIcon": "",
-                        "description": "function to upload dataset to Dataloop"
+                        "description": "function to upload dataset to DDOE"
                     }
                 ]
             }
